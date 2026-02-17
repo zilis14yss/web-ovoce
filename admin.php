@@ -1,4 +1,11 @@
-<?php 
+<?php
+session_start();
+if (!isset($_SESSION['prihlasen']) || $_SESSION['prihlasen'] !== true) {
+    header("Location: login.php"); // Pokud není přihlášen, pošli ho na login
+    exit();
+}
+?>
+<?php
 include 'db.php'; 
 
 // Jednoduché zpracování formuláře po odeslání
@@ -29,6 +36,7 @@ if (isset($_POST['pridat'])) {
 
 <nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container">
+        <a href="logout.php" class="btn btn-outline-light btn-sm">Odhlásit se</a>
         <a class="navbar-brand" href="index.php">← Zpět na web</a>
         <span class="navbar-text text-white">Administrace systému</span>
     </div>
