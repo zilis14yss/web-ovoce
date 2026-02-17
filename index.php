@@ -30,6 +30,7 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-link"><a class="nav-link active" href="index.php">Domů</a></li>
                 <li class="nav-link"><a class="nav-link" href="#">Katalog</a></li>
+                <li class="nav-link"><a class="nav-link" href="kosik.php">Košík</a></li>
                 <li class="nav-link"><a class="nav-link" href="admin.php">Administrace</a></li>
             </ul>
         </div>
@@ -61,7 +62,7 @@
                         <h5 class="card-title">' . $row["nazev"] . '</h5>
                         <p class="card-text text-muted">Země původu: ' . $row["zeme_puvodu"] . '</p>
                         <p class="fw-bold fs-4">' . $row["cena"] . ' Kč / ks</p>
-                        <button class="btn btn-success">Do košíku</button>
+                        <a href="pridat_do_kosiku.php?id=' . $row['id'] . '" class="btn btn-success">Do košíku</a>
                     </div>
                 </div>
             </div>';
@@ -69,20 +70,7 @@
     } else {
         echo "<p>Momentálně nemáme žádné ovoce skladem.</p>";
     }
-    ?>
-</div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="https://images.unsplash.com/photo-1550258114-68bd2950ec91?q=80&w=1974&auto=format&fit=crop" class="card-img-top" alt="Ananas">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Ananas Extra Sweet</h5>
-                    <p class="card-text text-muted">Země původu: Kostarika</p>
-                    <p class="fw-bold fs-4">65 Kč / ks</p>
-                    <button class="btn btn-success">Do košíku</button>
-                </div>
-            </div>
-        </div>
+        ?>
     </div>
 </main>
 
