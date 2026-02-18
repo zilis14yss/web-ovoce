@@ -22,7 +22,7 @@
             color: #2d3436;
         }
 
-        /* STICKY NAVIGACE */
+        /* STICKY NAVIGACE - SPLIT LAYOUT */
         .navbar {
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -31,9 +31,72 @@
             top: 0;
             z-index: 1000;
             border-bottom: 3px solid #2ecc71;
+            padding: 10px 0;
         }
 
-        /* HERO SEKCE S KONTRASTNÍ BUBLINOU */
+        /* ZVĚTŠENÉ LOGO UPROSTŘED */
+        .navbar-brand {
+            font-size: 2.3rem !important;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+            margin: 0 !important;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+
+        /* STYLOVÁNÍ ODKAZŮ */
+        .nav-link {
+            font-size: 1.1rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 1px;
+            padding: 10px 20px !important;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        /* Efekt podtržení */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 5px;
+            left: 50%;
+            background-color: #ffc107;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 60%;
+        }
+
+        /* RESPONSIVNÍ ROZLOŽENÍ */
+        @media (min-width: 992px) {
+            .navbar .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+            }
+            .navbar-brand {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .nav-left, .nav-right {
+                flex: 1;
+                display: flex;
+            }
+            .nav-right {
+                justify-content: flex-end;
+            }
+        }
+
+        /* HERO SEKCE */
         .hero-section {
             background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
             padding: 160px 0;
@@ -67,7 +130,7 @@
             border-radius: 100px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             border: 4px solid #2ecc71;
-            margin-bottom: 20px; /* Zmenšeno pro bublinu dopravy */
+            margin-bottom: 20px;
         }
 
         .section-title-container h2 {
@@ -94,7 +157,7 @@
             60% {transform: translateY(-3px);}
         }
 
-        /* KARTY PRODUKTŮ - PLNĚ BÍLÉ POZADÍ */
+        /* KARTY PRODUKTŮ */
         .card {
             background-color: #ffffff !important;
             border: none;
@@ -115,7 +178,7 @@
             border-bottom: 5px solid #ffc107;
         }
 
-        /* MAPA V BÍLÉM KONTEJNERU */
+        /* MAPA */
         .map-container-bubble {
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
@@ -148,6 +211,7 @@
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5rem; }
             .hero-bubble { padding: 20px; width: 90%; }
+            .navbar-brand { font-size: 1.8rem !important; }
         }
     </style>
 </head>
@@ -155,23 +219,35 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
+        <div class="nav-left d-none d-lg-flex">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link active" href="index.php">DOMŮ</a></li>
+            </ul>
+        </div>
+
         <a class="navbar-brand fw-bold text-warning" href="index.php">🍍 TropiOvoce</a>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto text-uppercase small fw-bold">
-                <li class="nav-item"><a class="nav-link active" href="index.php">Domů</a></li>
-                <li class="nav-item"><a class="nav-link" href="kosik.php">🛒 Košík (<?php echo isset($_SESSION['kosik']) ? count($_SESSION['kosik']) : 0; ?>)</a></li>
+        
+        <div class="collapse navbar-collapse nav-right" id="navbarNav">
+            <ul class="navbar-nav d-lg-none">
+                <li class="nav-item"><a class="nav-link active" href="index.php">DOMŮ</a></li>
+            </ul>
+            <ul class="navbar-nav ms-auto text-uppercase">
+                <li class="nav-item">
+                    <a class="nav-link" href="kosik.php">🛒 KOŠÍK (<?php echo isset($_SESSION['kosik']) ? count($_SESSION['kosik']) : 0; ?>)</a>
+                </li>
                 
                 <?php if(isset($_SESSION['uzivatel_id'])): ?>
                     <li class="nav-item"><a class="nav-link text-warning" href="#">🌴 <?php echo $_SESSION['uzivatel_jmeno']; ?></a></li>
-                    <li class="nav-item"><a class="nav-link" href="logout_uzivatel.php">Odhlásit</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout_uzivatel.php">ODHLÁSIT</a></li>
                 <?php else: ?>
-                    <li class="nav-item"><a class="nav-link" href="login_uzivatel.php">Přihlášení</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login_uzivatel.php">PŘIHLÁŠENÍ</a></li>
                 <?php endif; ?>
                 
-                <li class="nav-item"><a class="nav-link text-muted" href="admin.php">Admin</a></li>
+                <li class="nav-item"><a class="nav-link text-muted" href="admin.php">ADMIN</a></li>
             </ul>
         </div>
     </div>
@@ -186,18 +262,6 @@
         </div>
     </div>
 </header>
-
-<?php if(!isset($_SESSION['uzivatel_id'])): ?>
-<div class="container mt-4">
-    <div class="alert alert-warning border-0 shadow-lg d-flex justify-content-between align-items-center p-4" style="border-radius: 30px; background: white; border: 2px solid #ffc107 !important;">
-        <div>
-            <h4 class="mb-1 fw-bold text-dark">🌟 Staň se členem TropiKlubu!</h4>
-            <p class="mb-0 text-dark">Registruj se a získej <strong>doživotní slevu 15%</strong>.</p>
-        </div>
-        <a href="registrace.php" class="btn btn-dark btn-lg px-4 rounded-pill shadow">Chci výhody</a>
-    </div>
-</div>
-<?php endif; ?>
 
 <main class="container my-5" id="nabidka">
     <div class="text-center">
@@ -312,7 +376,6 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     
-    // Logika pro přidání do košíku
     if (urlParams.has('vlozeno')) {
         Swal.fire({
             title: 'Paráda!',
@@ -324,7 +387,6 @@
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // 4. KROK: Logika pro úspěšnou objednávku
     if (urlParams.has('objednavka_ok')) {
         Swal.fire({
             title: 'Objednávka přijata!',
