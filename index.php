@@ -67,7 +67,7 @@
             border-radius: 100px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             border: 4px solid #2ecc71;
-            margin-bottom: 50px;
+            margin-bottom: 20px; /* Zmenšeno pro bublinu dopravy */
         }
 
         .section-title-container h2 {
@@ -75,8 +75,23 @@
             color: #1e3a2b;
         }
 
-        .section-title-container h2::after {
-            display: none; /* Odstraníme ikonu z CSS, vložíme ji přímo do HTML */
+        /* BUBLINA DOPRAVA ZDARMA */
+        .shipping-badge-container {
+            background: #28a745;
+            color: white;
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+            margin-bottom: 50px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-5px);}
+            60% {transform: translateY(-3px);}
         }
 
         /* KARTY PRODUKTŮ - PLNĚ BÍLÉ POZADÍ */
@@ -129,6 +144,11 @@
 
         section, main { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s forwards; }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2.5rem; }
+            .hero-bubble { padding: 20px; width: 90%; }
+        }
     </style>
 </head>
 <body>
@@ -183,6 +203,10 @@
     <div class="text-center">
         <div class="section-title-container">
             <h2 class="fw-bold">🌴 Dnešní čerstvý sběr 🌴</h2>
+        </div>
+        <br>
+        <div class="shipping-badge-container shadow">
+            🚚 DOPRAVA ZDARMA PŘI NÁKUPU NAD 800 Kč
         </div>
     </div>
 
@@ -278,7 +302,8 @@
     const lokality = [
         { nazev: "Brazílie (Mango)", coords: [-14.235, -51.925] },
         { nazev: "Kostarika (Ananas)", coords: [9.748, -83.753] },
-        { nazev: "Mexiko (Avokádo)", coords: [23.634, -102.552] }
+        { nazev: "Mexiko (Avokádo)", coords: [23.634, -102.552] },
+        { nazev: "Ekvádor (Banány)", coords: [-1.8312, -78.1834] }
     ];
 
     lokality.forEach(misto => {
@@ -286,10 +311,24 @@
     });
 
     const urlParams = new URLSearchParams(window.location.search);
+    
+    // Logika pro přidání do košíku
     if (urlParams.has('vlozeno')) {
         Swal.fire({
             title: 'Paráda!',
             text: 'Ovoce je připraveno v košíku.',
+            icon: 'success',
+            background: '#ffffff',
+            confirmButtonColor: '#2ecc71'
+        });
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // 4. KROK: Logika pro úspěšnou objednávku
+    if (urlParams.has('objednavka_ok')) {
+        Swal.fire({
+            title: 'Objednávka přijata!',
+            text: 'Děkujeme za váš nákup. Brzy se ozveme s detaily doručení!',
             icon: 'success',
             background: '#ffffff',
             confirmButtonColor: '#2ecc71'
